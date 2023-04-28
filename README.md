@@ -16,7 +16,7 @@ Notes:
 
 You can assume that when the program asks user to enter an integer, the user will indeed enter an integer (i.e., you don't need to verify the data type of the user input).
 For the interaction choice if the user enters an incorrect integer (i.e., something other than 1 or 2), print an error message and again present the 2 choices to the user.
-Selecting a File to Process
+* Selecting a File to Process
 If the user picks this option, they are presented with the following menu options
 
 ```
@@ -76,3 +76,71 @@ E.g., the file for movies released in 2018 must be named 2018.txt
 * Within the file for a year, write the titles of all the movies released in that year, one on each line
   * E.g., if two movies Avengers: Infinity War and Mary Queen of Scots where released in 2018, then the file 2018.txt will have two lines with each of the two titles on one line each.
   * Note: The bullet points above state what the processing accomplishes. There is no requirement that your program does the processing in the order of these bulleted points.
+
+# Sample Program Execution
+
+Here is a complete example of executing the program in a directory where
+* The file foo_bar does not exist
+* The file great_movies.csv exists
+* Of all the files with the extension csv and the prefix movies_
+  * the largest file is named movies_1.csv
+  * the smallest file is named movies_2.csv
+
+```
+1. Select file to process
+2. Exit the program
+
+Enter a choice 1 or 2: 1
+
+Which file you want to process?
+Enter 1 to pick the largest file
+Enter 2 to pick the smallest file
+Enter 3 to specify the name of a file
+
+Enter a choice from 1 to 3: 1
+Now processing the chosen file named movies_1.csv
+Created directory with name chaudhrn.movies.89383
+
+1. Select file to process
+2. Exit the program
+
+Enter a choice 1 or 2: 1
+
+Which file you want to process?
+Enter 1 to pick the largest file
+Enter 2 to pick the smallest file
+Enter 3 to specify the name of a file
+
+Enter a choice from 1 to 3: 2
+Now processing the chosen file named movies_2.csv
+Created directory with name chaudhrn.movies.30886
+
+1. Select file to process
+2. Exit the program
+
+Enter a choice 1 or 2: 1
+
+Which file you want to process?
+Enter 1 to pick the largest file
+Enter 2 to pick the smallest file
+Enter 3 to specify the name of a file
+
+Enter a choice from 1 to 3: 3
+Enter the complete file name: foo_bar
+The file foo_bar was not found. Try again
+
+Which file you want to process?
+Enter 1 to pick the largest file
+Enter 2 to pick the smallest file
+Enter 3 to specify the name of a file
+
+Enter a choice from 1 to 3: 3
+Enter the complete file name: great_movies.csv
+Now processing the chosen file named great_movies.csv
+Created directory with name chaudhrn.movies.92777
+
+1. Select file to process
+2. Exit the program
+
+Enter a choice 1 or 2: 2
+```
