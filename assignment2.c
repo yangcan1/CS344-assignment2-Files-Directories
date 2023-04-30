@@ -1,6 +1,31 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<fcntl.h>
+#include<sys/stat.h>
+#include<dirent.h>
+#include<string.h>
+
+#define PREFIX "movies_"
+
+void largest_finding() {
+    // This initialization is what I learned from Exploration: Directories in Module 3.
+    DIR *currDir = opendir(".");
+    struct dirent *aDir;
+    struct stat *dirStat;
+    int max_size = 0;
+    char* max_name;
+
+    while ((aDir = readdir(currDir)) != NULL) {
+        if (strncmp(PREFIX, aDir->d_name, strlen(PREFIX)) && strstr(aDir->d_name, ".csv") == ".csv") {
+            stat(aDir->d_name, dirStat);
+            if (dirStat->st_size > max_size) {
+                max_size = dirStat->st_size;
+                max_name = aDir->d_name;
+            }
+        }
+    }
+
+    closedir(currDir);
+}
 
 int main () {
     int first_option, second_option;
