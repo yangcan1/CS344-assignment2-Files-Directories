@@ -123,16 +123,16 @@ void largest_finding() {
     // This initialization is what I learned from Exploration: Directories in Module 3.
     DIR *currDir = opendir("./");
     struct dirent *aDir;
-    struct stat *dirStat;
+    struct stat dirStat;
     int max_size = 0;
     char* max_name;
 
     while ((aDir = readdir(currDir)) != NULL) {
         // loop through all dir and find the max size dir.
         if (strncmp(PREFIX, aDir->d_name, strlen(PREFIX)) == 0 && strcmp(strstr(aDir->d_name, ".csv"), ".csv") == 0) {      
-            stat(aDir->d_name, dirStat);
-            if (dirStat->st_size > max_size) {
-                max_size = dirStat->st_size;
+            stat(aDir->d_name, &dirStat);
+            if (dirStat.st_size > max_size) {
+                max_size = dirStat.st_size;
                 max_name = aDir->d_name;
             }
         }
@@ -146,16 +146,16 @@ void smallest_finding() {
     // This initialization is what I learned from Exploration: Directories in Module 3.
     DIR *currDir = opendir("./");
     struct dirent *aDir;
-    struct stat *dirStat;
+    struct stat dirStat;
     int min_size = 999999;
     char* min_name;
 
     while ((aDir = readdir(currDir)) != NULL) {
         // loop through all dir and find the max size dir.
         if (strncmp(PREFIX, aDir->d_name, strlen(PREFIX)) == 0 && strcmp(strstr(aDir->d_name, ".csv"), ".csv") == 0) {      
-            stat(aDir->d_name, dirStat);
-            if (dirStat->st_size < min_size) {
-                min_size = dirStat->st_size;
+            stat(aDir->d_name, &dirStat);
+            if (dirStat.st_size < min_size) {
+                min_size = dirStat.st_size;
                 min_name = aDir->d_name;
             }
         }
