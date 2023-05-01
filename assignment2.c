@@ -181,6 +181,7 @@ int main () {
             } else {
                 // Option 1, goes to Selecting File.
                 while (1) {
+                    // deal with the third option when the inputted file doesn't show in current directory. 
                     printf("\nWhich file you want to process?\nEnter 1 to pick the largest file\nEnter 2 to pick the smallest file\nEnter 3 to specify the name of a file\nEnter a choice from 1 to 3: ");
                     scanf("%d", &second_option);
                     while (second_option != 1 && second_option != 2 && second_option != 3) {
