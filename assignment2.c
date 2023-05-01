@@ -14,10 +14,12 @@ void create_dir();
 void create_dir() {
     srand(time(NULL));
     int r = rand() % 100000;
-    printf("random dir name is yangca.movies.%d", r);
-
-    
+    char* dir_name = malloc(sizeof(char) * 25);
+    sprintf(dir_name, "./yangca.movie.%d", r);
+    // mkdir(dir_name, 0750);
+    printf("Created directory with name: yangca.movies.%d", r);
 }
+
 void largest_finding() {
 
     // This initialization is what I learned from Exploration: Directories in Module 3.
@@ -28,6 +30,7 @@ void largest_finding() {
     char* max_name;
 
     while ((aDir = readdir(currDir)) != NULL) {
+        // loop through all dir and find the max size dir.
         if (strncmp(PREFIX, aDir->d_name, strlen(PREFIX)) == 0 && strcmp(strstr(aDir->d_name, ".csv"), ".csv") == 0) {      
             stat(aDir->d_name, dirStat);
             if (dirStat->st_size > max_size) {
@@ -37,6 +40,8 @@ void largest_finding() {
         }
     }
     printf("\nNow processing the chosen file named %s has the maximum size: %d \n", max_name, max_size);
+    // Create a directory
+    create_dir();
     closedir(currDir);
 }
 
@@ -75,4 +80,6 @@ int main () {
                 }
             }
     }
+
+
 }
