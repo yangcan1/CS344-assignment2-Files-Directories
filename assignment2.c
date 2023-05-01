@@ -15,6 +15,8 @@ void create_dir() {
     srand(time(NULL));
     int r = rand() % 100000;
     printf("random dir name is yangca.movies.%d", r);
+
+    
 }
 void largest_finding() {
 
