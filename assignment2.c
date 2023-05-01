@@ -17,6 +17,7 @@ void create_dir(char* fileName);
 void create_file(struct movies* list, char* dirName);
 
 
+
 struct movies {
     char* title;
     char* year;
@@ -107,7 +108,7 @@ void create_file(struct movies* list, char* dirName) {
 }
 
 void create_dir(char* fileName) {
-    // Create a new directory with a custimized name.
+    // Create a new directory with a name.
     srand(time(NULL));
     int r = rand() % 100000;
     char* dir_name = malloc(sizeof(char) * 25);
@@ -162,11 +163,11 @@ void smallest_finding() {
     printf("\nNow processing the chosen file named %s has the minimum size: %d \n", min_name, min_size);
     create_dir(min_name);
     closedir(currDir);
-
 }
 
 int main () {
-    int first_option, second_option;
+    int first_option, second_option, button = 1;
+    char file_name[100];
     while (first_option != 2) {
         printf("\n1. Select file to process\n2. Exit the program\nEnter a choice 1 or 2: ");
         scanf("%d", &first_option);
@@ -179,22 +180,45 @@ int main () {
                 exit(0);
             } else {
                 // Option 1, goes to Selecting File.
-                printf("\nWhich file you want to process?\nEnter 1 to pick the largest file\nEnter 2 to pick the smallest file\nEnter 3 to specify the name of a file\nEnter a choice from 1 to 3: ");
-                scanf("%d", &second_option);
-                while (second_option != 1 && second_option != 2 && second_option != 3) {
-                    printf("\nInvalid option! Please Enter again.\n\nWhich file you want to process?\nEnter 1 to pick the largest file\nEnter 2 to pick the smallest file\nEnter 3 to specify the name of a file\nEnter a choice from 1 to 3: ");
+                while (1) {
+                    printf("\nWhich file you want to process?\nEnter 1 to pick the largest file\nEnter 2 to pick the smallest file\nEnter 3 to specify the name of a file\nEnter a choice from 1 to 3: ");
                     scanf("%d", &second_option);
-                }
-                if (second_option == 1) {
-                    // User picks 1: Processing lagest file.
-                    largest_finding();
-                } else if (second_option == 2) {
-                    // User picks 2: Processing smallest file.
-                    smallest_finding();
-                } else {
-                    // User picks 3: Processing given file.
+                    while (second_option != 1 && second_option != 2 && second_option != 3) {
+                        printf("\nInvalid option! Please Enter again.\n\nWhich file you want to process?\nEnter 1 to pick the largest file\nEnter 2 to pick the smallest file\nEnter 3 to specify the name of a file\nEnter a choice from 1 to 3: ");
+                        scanf("%d", &second_option);
+                    }
+                    if (second_option == 1) {
+                        // User picks 1: Processing lagest file.
+                        largest_finding();
+                        break;
+                    } else if (second_option == 2) {
+                        // User picks 2: Processing smallest file.
+                        smallest_finding();
+                        break;
+                    } else {
+                        // User picks 3: Processing given file.
+                        printf("\nEnter the complete file name: ");
+                        scanf("%s", file_name);
+                        DIR *currDir = opendir("./");
+                        struct dirent *aDir;
+                        struct stat *dirStat;
+                        while ((aDir = readdir(currDir)) != NULL) {
+                            if (strcmp(aDir->d_name, file_name) == 0) {
+                                button = 1;
+                                create_dir(file_name);
+                                break;
+                            } else 
+                                button = 0;
+                        }
+                        if (button == 0) 
+                            printf("\nFile cannot found!\n");
+                        else
+                            break;
 
+                        closedir(currDir);
+                    }
                 }
+                
             }
     }
 
