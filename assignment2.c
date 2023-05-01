@@ -102,6 +102,7 @@ void create_file(struct movies* list, char* dirName) {
         // printf("\n\n%s\n", file_path);
         FILE* fptr = fopen(file_path, "a");
         fprintf(fptr, "%s\n", list->title);
+        chmod(file_path, 0640);
         fclose(fptr);
         list = list->next;
     }
