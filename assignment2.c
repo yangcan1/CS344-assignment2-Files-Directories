@@ -1,11 +1,21 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<sys/stat.h>
+#include<sys/types.h>
 #include<dirent.h>
 #include<string.h>
+#include<time.h>
 
 #define PREFIX "movies_"
 
+void largest_finding();
+void create_dir();
+
+void create_dir() {
+    srand(time(NULL));
+    int r = rand() % 100000;
+    printf("random dir name is yangca.movies.%d", r);
+}
 void largest_finding() {
 
     // This initialization is what I learned from Exploration: Directories in Module 3.
@@ -24,12 +34,12 @@ void largest_finding() {
             }
         }
     }
-    printf("file name: %s has the maximum size: %d", max_name, max_size);
+    printf("\nNow processing the chosen file named %s has the maximum size: %d \n", max_name, max_size);
     closedir(currDir);
 }
 
 int main () {
-
+    create_dir();
     int first_option, second_option;
     while (first_option != 2) {
         printf("\n1. Select file to process\n2. Exit the program\nEnter a choice 1 or 2: ");
@@ -53,7 +63,7 @@ int main () {
 
                 if (second_option == 1) {
                     // User picks 1: Processing lagest file.
-                    // largest_finding();
+                    largest_finding();
                 } else if (second_option == 2) {
                     // User picks 2: Processing smallest file.
 
