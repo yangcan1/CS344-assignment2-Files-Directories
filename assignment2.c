@@ -8,16 +8,113 @@
 
 #define PREFIX "movies_"
 
+struct movies;
+struct movies *createMovies(char* currline);
+struct movies* processFile(char* filename);
 void largest_finding();
-void create_dir();
+void create_dir(char* fileName);
+void create_file(struct movies* list, char* dirName);
 
-void create_dir() {
+
+struct movies {
+    char* title;
+    char* year;
+    char* languages;
+    char* rate;
+    struct movies* next;
+};
+
+struct movies *createMovies(char* currline) {
+    struct movies* currMovie = malloc(sizeof(struct movies));
+    // For use with strtok_r
+    char *saveptr;
+
+    // The first token is the title
+    char *token = strtok_r(currline, ",", &saveptr);
+    currMovie->title = calloc(strlen(token) + 1, sizeof(char));
+    strcpy(currMovie->title, token);
+
+    // The next token is the year
+    token = strtok_r(NULL, ", ", &saveptr);
+    currMovie->year = calloc(strlen(token) + 1, sizeof(char));
+    strcpy(currMovie->year, token);
+
+    // The next token is the languages
+    token = strtok_r(NULL, ", ", &saveptr);
+    currMovie->languages = calloc(strlen(token) + 1, sizeof(char));
+    strcpy(currMovie->languages, token);
+
+    // The last token is the rate
+    token = strtok_r(NULL, "\n", &saveptr);
+    currMovie->rate = calloc(strlen(token) + 1, sizeof(char));
+    strcpy(currMovie->rate, token);
+
+    // Set the next node to NULL in the newly created movie entry
+    currMovie->next = NULL;
+
+    return currMovie;
+}
+
+struct movies* processFile(char* filename) {
+    FILE *fptr = fopen(filename, "r");
+    
+    char *currline = NULL;
+    size_t len = 0;
+    ssize_t nread;
+    char *token;
+
+    struct movies *head = NULL;
+    struct movies *tail = NULL;
+
+    getline(&currline, &len, fptr);
+    while ((nread = getline(&currline, &len, fptr)) != -1)
+    {
+        // printf("%s", currline);
+        // Get a new movie node corresponding to the current line
+        struct movies *newNode = createMovies(currline);
+        if (head == NULL)
+        {
+            // This is the first node in the linked link
+            // Set the head and the tail to this node
+            head = newNode;
+            tail = newNode;
+        }
+        else
+        {
+            // This is not the first node.
+            // Add this node to the list and advance the tail
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+    free(currline);
+    fclose(fptr);
+    return head;
+}
+
+void create_file(struct movies* list, char* dirName) {    
+    // create a new file in that correct path
+    while(list != NULL) {
+        char file_path[100];
+        sprintf(file_path, "%s/%s%s", dirName, list->year, ".txt");
+        // printf("\n\n%s\n", file_path);
+        FILE* fptr = fopen(file_path, "a");
+        fprintf(fptr, "%s\n", list->title);
+        fclose(fptr);
+        list = list->next;
+    }
+}
+
+void create_dir(char* fileName) {
+    // Create a new directory with a custimized name.
     srand(time(NULL));
     int r = rand() % 100000;
     char* dir_name = malloc(sizeof(char) * 25);
     sprintf(dir_name, "./yangca.movie.%d", r);
-    // mkdir(dir_name, 0750);
-    printf("Created directory with name: yangca.movies.%d", r);
+    mkdir(dir_name, 0750);
+    printf("Created directory with name: yangca.movies.%d\n", r); 
+    struct movies *list = processFile(fileName);
+    create_file(list, dir_name);
 }
 
 void largest_finding() {
@@ -40,13 +137,11 @@ void largest_finding() {
         }
     }
     printf("\nNow processing the chosen file named %s has the maximum size: %d \n", max_name, max_size);
-    // Create a directory
-    create_dir();
+    create_dir(max_name);
     closedir(currDir);
 }
 
 int main () {
-    create_dir();
     int first_option, second_option;
     while (first_option != 2) {
         printf("\n1. Select file to process\n2. Exit the program\nEnter a choice 1 or 2: ");
