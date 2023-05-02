@@ -129,7 +129,7 @@ void largest_finding() {
     char* max_name;
 
     while ((aDir = readdir(currDir)) != NULL) {
-        // loop through all dir and find the max size dir.
+        // loop through all dir entries and find the max size dir entry.
         if (strncmp(PREFIX, aDir->d_name, strlen(PREFIX)) == 0 && strcmp(strstr(aDir->d_name, ".csv"), ".csv") == 0) {      
             stat(aDir->d_name, &dirStat);
             if (dirStat.st_size > max_size) {
@@ -139,6 +139,7 @@ void largest_finding() {
         }
     }
     printf("\nNow processing the chosen file named %s has the maximum size: %d \n", max_name, max_size);
+    // Next we need to process the file: create a dir, and create some files under that dir.
     create_dir(max_name);
     closedir(currDir);
 }
@@ -162,6 +163,7 @@ void smallest_finding() {
         }
     }
     printf("\nNow processing the chosen file named %s has the minimum size: %d \n", min_name, min_size);
+    // Next we need to process the file: create a dir, and create some files under that dir.
     create_dir(min_name);
     closedir(currDir);
 }
